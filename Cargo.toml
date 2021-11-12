@@ -1,0 +1,31 @@
+[package]
+name = "terraform-http-backend-rs"
+version = "0.1.0-dev.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.45"
+axum = "0.3.0"
+axum-debug = "0.1.0"
+chrono = { version = "0.4.19", features = [ "serde" ] }
+env_logger = "0.9.0"
+envconfig = "0.10.0"
+futures = "0.3.17"
+http = "0.2.5"
+http-auth-basic = "0.3.1"
+hyper = "0.14.14"
+log = "0.4.14"
+rand_core = "0.6.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.67"
+sqlx = { version = "0.5", features = [ "chrono", "migrate", "runtime-tokio-native-tls", "sqlite" ] }
+tokio = { version = "1.5.0", features = [ "macros", "rt" ] }
+tower = "0.4.10"
+tower-http = { version = "0.1.1", features = [ "trace" ] }
+tracing = "0.1.29"
+tracing-subscriber = { version = "0.3.1", features = [ "env-filter" ] }
+
+[dev-dependencies]
+base64 = "0.13.0"
