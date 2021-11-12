@@ -2,7 +2,7 @@ version: 2
 jobs:
   build-test:
     docker:
-      - image: docker:20.10.10-git
+      - image: cimg/base:2020.12
     steps:
       - checkout
       - setup_remote_docker:
@@ -12,7 +12,7 @@ jobs:
           command: ./test.sh
   publish:
     docker:
-      - image: docker:20.10.10-git
+      - image: cimg/base:2020.12
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
