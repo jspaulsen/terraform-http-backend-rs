@@ -296,6 +296,7 @@ mod tests {
         let lock_id = "abcd";
         let state = json!({"state": "something"});
         let lock_state = json!({"ID": lock_id});
+        let alt_lock_state = json!({"ID": "alt_id"});
         let uri = format!("/terraform/{}/lock", id);
 
         query.create_or_replace(id, &state.to_string())
@@ -311,7 +312,7 @@ mod tests {
             .method(http::Method::POST)
             .header("AUTHORIZATION", authentication(&config.tf_http_username, &config.tf_http_password))
             .header(http::header::CONTENT_TYPE, "application/json")
-            .body(Body::from(lock_state.to_string()))
+            .body(Body::from(alt_lock_state.to_string()))
             .expect("Failed to build request");
 
         let router: axum::Router = api.into();
@@ -485,3 +486,4 @@ mod tests {
         assert_eq!(response.status(), StatusCode::BAD_REQUEST);
     }
 }
+

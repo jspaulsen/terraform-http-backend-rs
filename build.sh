@@ -41,8 +41,10 @@ IMAGE="${PREFIX}${VTAG}"
 docker build \
     --target ${TARGET} \
     --tag $IMAGE \
+    --tag $TAG \
     -f Dockerfile \
     .
+
 
 
 # Publish

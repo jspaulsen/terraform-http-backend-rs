@@ -16,7 +16,6 @@ RUN cargo build --release && rm src/*.rs
 COPY migrations migrations
 COPY src ./src
 
-RUN ls target/release && ls && ls
 RUN rm target/release/terraform-http-backend-rs* && \
     rm target/release/deps/terraform_http_backend_rs* && \
     cargo build --release

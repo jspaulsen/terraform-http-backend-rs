@@ -1,0 +1,36 @@
+version: 2
+jobs:
+  build-test:
+    docker:
+      - image: docker:20.10.10-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and Test
+          command: ./test.sh
+  publish:
+    docker:
+      - image: docker:20.10.10-git
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Login to Docker Hub
+          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+      - run:
+          name: Publish image
+          command: ./build.sh --publish
+
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build-test
+      - publish:
+          requires:
+            - build-test
+          filters:
+            branches:
+              only: develop
