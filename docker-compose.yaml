@@ -1,10 +1,21 @@
 version: "3.3"
 services:
   terraform-http-backend:
-    image: jspaulsen/terraform-http-backend:v0.1.0-dev.0-amd64
+    image: jspaulsen/terraform-http-backend:v0.1.0-dev.0
+    restart: unless-stopped
     environment:
-      TF_HTTP_USERNAME: "asdf" # "qwYH9QwmmUB4UJ9P"
-      TF_HTTP_PASSWORD: "asdf" # "YxNh9bXsb9zcfYRL"
-      LOG_LEVEL: DEBUG
+      TF_HTTP_USERNAME: "username"
+      TF_HTTP_PASSWORD: "password"
+      LOG_LEVEL: INFO
+      HTTP_PORT: 8443
+    ports:
+      - 8443:8443
     volumes:
-      - ./db:/var/lib/terraform-http-backend
+      - db-data:/var/lib/terraform-http-backend
+
+volumes:
+  db-data:
+    driver_opts:
+      type: none
+      device: /var/lib/terraform-http-backend
+      o: bind

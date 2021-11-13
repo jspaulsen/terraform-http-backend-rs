@@ -6,6 +6,9 @@ TAG="terraform-http-backend"
 TARGET="base"
 PUBLISH=false
 
+BRANCH=$(git symbolic-ref --short -q HEAD)
+INCLUDE_LATEST=""
+
 POSITIONAL=()
 
 while [[ $# -gt 0 ]]; do
@@ -35,17 +38,22 @@ done
 
 
 ARCH="$(dpkg --print-architecture)"
-VTAG="${TAG}:v${VERSION}-${ARCH}"
+VTAG="${TAG}:v${VERSION}"
 IMAGE="${PREFIX}${VTAG}"
+
+
+if [[ $BRANCH == "main" ]]; then
+    INCLUDE_LATEST="--tag ${PREFIX}${TAG}"
+fi
+
 
 docker build \
     --target ${TARGET} \
     --tag $IMAGE \
     --tag $TAG \
+    $INCLUDE_LATEST \
     -f Dockerfile \
     .
-
-
 
 # Publish
 if [ "$PUBLISH" = true ]; then

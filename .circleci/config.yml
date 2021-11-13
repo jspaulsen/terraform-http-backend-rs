@@ -21,18 +21,6 @@ jobs:
       - run:
           name: Publish image
           command: ./build.sh --publish
-  publish-arm:
-    machine:
-      image: ubuntu-2004:202101-01
-    resource_class: arm.medium
-    steps:
-      - checkout
-      - run:
-          name: Login to Docker Hub
-          command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
-      - run:
-          name: Publish image
-          command: ./build.sh --publish
 
 workflows:
   version: 2
@@ -46,12 +34,6 @@ workflows:
             - build-test
           filters:
             branches:
-              only: develop
-      - publish-arm:
-          context:
-            - Docker Credentials
-          requires:
-            - build-test
-          filters:
-            branches:
-              only: develop
+              only:
+                - main
+                - develop
